@@ -17,14 +17,9 @@
 package com.example.android.eggtimernotifications.util
 
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
-import com.example.android.eggtimernotifications.MainActivity
 import com.example.android.eggtimernotifications.R
-import com.example.android.eggtimernotifications.receiver.SnoozeReceiver
 
 // Notification ID.
 private val NOTIFICATION_ID = 0
@@ -35,7 +30,8 @@ private val FLAGS = 0
 /**
  * Builds and delivers the notification.
  *
- * @param context, activity context.
+ * @param messageBody, notification text.
+ * @param applicationContext, activity context.
  */
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
     // Create the content intent for the notification, which launches
@@ -50,10 +46,18 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
     // TODO: Step 1.2 get an instance of NotificationCompat.Builder
     // Build the notification
+    val builder = NotificationCompat.Builder(
+        applicationContext,
+        applicationContext.getString(R.string.egg_notification_channel_id)
+    )
 
     // TODO: Step 1.8 use the new 'breakfast' notification channel
 
     // TODO: Step 1.3 set title, text and icon to builder
+        .setSmallIcon(R.drawable.cooked_egg)
+        .setContentTitle(applicationContext
+            .getString(R.string.notification_title))
+        .setContentText(messageBody)
 
     // TODO: Step 1.13 set content intent
 
@@ -63,8 +67,9 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
         // TODO: Step 2.5 set priority
 
-    // TODO: Step 1.4 call notify
-
+    // TODO: Step 1.4 call notify to send the notification
+    // Deliver the notification
+    notify(NOTIFICATION_ID, builder.build())
 }
 
 // TODO: Step 1.14 Cancel all notifications
